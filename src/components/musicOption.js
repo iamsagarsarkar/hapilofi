@@ -36,7 +36,7 @@ function MusicOption({mood,setMood,idx,setIdx}) {
 function moodChange(setIdx,setMood,mood,val,idx){
   if(mood === val) return;
   setMood(val);
-  if(idx !== 0) setIdx(1);
+  if(idx !== 0) setIdx(0);
 }
 
 function MoodButton({setIdx,setMood,mood,val,idx}){

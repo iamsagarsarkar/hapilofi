@@ -5,9 +5,11 @@ import { ReactComponent as PauseSvg } from '../assets/pause.svg';
 import './musicSystem.css';
 import React,{useState,useEffect} from 'react';
 
-function MusicSystem({idx,setIdx,music,sound,length}) {
+function MusicSystem({idx,setIdx,music,sound,length,mood,array}) {
   const [isPlaying,setIsPlaying] = useState([true]);
   const [isHome,setIsHome] = useState([true]);
+
+  if(!isHome && idx === 0) checkMood(mood,music,array,idx,setIdx,setIsPlaying,sound);
 
   sound.onended = () => {
     forWard(idx,setIdx,sound,setIsPlaying,length);
@@ -22,33 +24,59 @@ function MusicSystem({idx,setIdx,music,sound,length}) {
       <div className='music-system'>
       <p className='music-name'>{music.name}</p>
       <div className='button-work'>
-      <button onClick={()=> backWard(idx,setIdx,sound,setIsPlaying,length)} className='button'><FastRewind/></button>  
+      <button onClick={()=> backWard(idx,setIdx,sound,setIsPlaying,length,array,mood)} className='button'><FastRewind/></button>  
       <button className='button' onClick={()=>handlePlayButton(isPlaying,setIsPlaying,sound)}><PlayOrPause isPlaying={isPlaying}/></button>
-      <button onClick={()=> forWard(idx,setIdx,sound,setIsPlaying,length)} className='button'><FastForward/></button>
+      <button onClick={()=> forWard(idx,setIdx,sound,setIsPlaying,length,array,mood)} className='button'><FastForward/></button>
       </div></div> );
   }
 }
 
 
 function startPlaying(idx,setIdx,sound,setIsPlaying,setIsHome){
-  setIdx(++idx);
+  setIdx(0);
   soundStop(sound);
   setIsPlaying(false);
   setIsHome(false);
  }
 
-function backWard(idx,setIdx,sound,setIsPlaying,length){
-  if(idx === 1) setIdx(length-1);
-  else setIdx(--idx);
-  soundStop(sound);
-  setIsPlaying(false);
+function backWard(idx,setIdx,sound,setIsPlaying,length,array,mood){
+  if(mood === "All"){
+    if(idx === 1) setIdx(length-1);
+    else setIdx(--idx);
+    soundStop(sound);
+    setIsPlaying(false);
+  }else{
+    let cur = idx-1;
+    if(cur === 0) cur = length-1;
+    while(cur%length !== idx && array[cur%length].mood !== mood){
+      cur--;
+      if(cur === 0) cur = length-1;
+    }
+    if(cur%array.length === idx) console.log("Not have that mood");
+    else{
+      setIdx(cur%array.length);
+      soundStop(sound);
+      setIsPlaying(false);
+    }
+  }
 }
 
-function forWard(idx,setIdx,sound,setIsPlaying,length){
- if(idx === length-1) setIdx(1); 
- else setIdx(++idx);
- soundStop(sound);
- setIsPlaying(false);
+function forWard(idx,setIdx,sound,setIsPlaying,length,array,mood){
+  if(mood ==="All"){
+    if(idx === length-1) setIdx(1); 
+    else setIdx(++idx);
+    soundStop(sound);
+    setIsPlaying(false);
+  }else{
+    let cur = idx+1;
+    while(cur%array.length !== idx && array[cur%array.length].mood !== mood) cur++;
+    if(cur%array.length === idx) console.log("Not have that mood");
+    else{
+      setIdx(cur%array.length);
+      soundStop(sound);
+      setIsPlaying(false);
+    }
+  }
 }
 
 function handlePlayButton(isPlaying,setIsPlaying,sound){
@@ -69,6 +97,21 @@ function audio(isPlaying,sound){
 function soundStop(sound){
   sound.pause();
   sound.currentTime = 0;
+}
+
+function checkMood(mood,music,array,idx,setIdx,setIsPlaying,sound){
+  if(mood === "All") setIdx(1);
+  if(mood !== "All" && mood !== music.mood){
+    let cur = idx+1;
+    while(cur%array.length !== idx && array[cur%array.length].mood !== mood) cur++;
+    console.log(cur);
+    if(cur%array.length === idx) console.log("Not have that mood");
+    else{
+      setIdx(cur%array.length);
+      soundStop(sound);
+      setIsPlaying(false);
+    }
+   }
 }
 
 export default MusicSystem;

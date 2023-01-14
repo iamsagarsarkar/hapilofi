@@ -6,14 +6,12 @@ import MusicOption from './components/musicOption';
 import natural from "./assets/natural.jpg";
 
 const array = [];
-array.push({image:natural,name: "hello",url: ""});
+array.push({image:natural,name: "",url: "",mood:""});
 const sound = new Audio();
 
 function App() {
   const [idx,setIdx] = useState(0);
   const [musics,setMusics]=useState([]);
-
-
   const [mood,setMood] = useState("All");
 
   const fetchMusics=async()=>{
@@ -27,8 +25,8 @@ function App() {
   useEffect(() => {
     fetchMusics();
   }, [])
-  
-  const music = array[idx%array.length];
+
+  const music = array[idx];
   const background = music.image;
   if(idx !== 0){
     sound.src = music.url;
@@ -46,7 +44,7 @@ function App() {
    }}>
     <p></p>
     <MusicOption mood={mood} setMood={setMood} idx={idx}  setIdx={setIdx}/>
-    <MusicSystem idx={idx}  setIdx={setIdx} music={music} sound={sound} length={array.length}/>
+    <MusicSystem idx={idx}  setIdx={setIdx} music={music} sound={sound} length={array.length} mood={mood} array={array}/>
   </div>);}
 
 
