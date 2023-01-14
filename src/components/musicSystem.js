@@ -104,7 +104,6 @@ function checkMood(mood,music,array,idx,setIdx,setIsPlaying,sound){
   if(mood !== "All" && mood !== music.mood){
     let cur = idx+1;
     while(cur%array.length !== idx && array[cur%array.length].mood !== mood) cur++;
-    console.log(cur);
     if(cur%array.length === idx) console.log("Not have that mood");
     else{
       setIdx(cur%array.length);
