@@ -1,0 +1,33 @@
+
+.music-system{
+    align-content: center;
+    position: absolute;
+    bottom: 0px;
+    margin-left: 8px;
+}
+.music-name{
+    color: whitesmoke;
+    text-align: center;
+    font-size: 30px;
+}
+.button-work{
+  margin-top: -42px;
+}
+.button{
+    background-color: transparent;
+    border-color: transparent;
+    padding: 30px;
+}
+.start-content{
+    margin-top: 180px;
+    text-align: center;
+}
+.start-button{
+    background-color: transparent;
+    border-color: transparent;
+    padding: 30px;
+}
+.start-button img{
+    height: 110px;
+    width: 110px; 
+}
