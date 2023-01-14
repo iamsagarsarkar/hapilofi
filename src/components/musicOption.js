@@ -1,12 +1,12 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import Popup from 'reactjs-popup';
 import { ReactComponent as Menu } from '../assets/menu.svg';
 import './musicOption.css';
 
-function MusicOption() {
+function MusicOption({mood,setMood,idx,setIdx}) {
+
     return (
-     <Popup
-    trigger={<button className="button"><Menu/></button>}
+     <Popup trigger={<button className="button"><Menu/></button>}
     modal
     nested>
     {close => (
@@ -16,23 +16,32 @@ function MusicOption() {
         </button>
         <div className="header">Choose Mood</div>
         <div className="content">
-        <button onClick={()=>console.log("LoFi Study")}>LoFi Study</button>
-        <button onClick={()=>console.log("Nostalgia")}>Nostalgia</button>
-        <button onClick={()=>console.log("Sad")}>Sad</button>
-        <button onClick={()=>console.log("Happy")}>Happy</button>
-        <button onClick={()=>console.log("NightCore")}>NightCore</button>
-        <button onClick={()=>console.log("Energy")}>Energy</button>
-        <button onClick={()=>console.log("Retro")}>Retro</button>
-        <button onClick={()=>console.log("Romantic")}>Romantic</button>
-        <button onClick={()=>console.log("Cheerful")}>Cheerful</button>
-        <button onClick={()=>console.log("Bengali")}>Bengali</button>
-        <button onClick={()=>console.log("English")}>English</button>
-        <button onClick={()=>console.log("Hindi")}>Hindi</button>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"All"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"LoFi Study"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Nostalgia"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Sad"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Happy"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"NightCore"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Energy"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Retro"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Romantic"} idx={idx}/>
+        <MoodButton setIdx={setIdx} setMood={setMood}  mood={mood} val={"Cheerful"} idx={idx}/>
         </div>
       </div>
     )}
   </Popup>
     );
+}
+
+function moodChange(setIdx,setMood,mood,val,idx){
+  if(mood === val) return;
+  setMood(val);
+  if(idx !== 0) setIdx(1);
+}
+
+function MoodButton({setIdx,setMood,mood,val,idx}){
+  if(mood === val) return <button className="select-botton" onClick={()=>moodChange(setIdx,setMood,mood,val,idx)}>{val}</button>;
+  else return <button className="not-select-botton"  onClick={()=>moodChange(setIdx,setMood,mood,val,idx)}>{val}</button>
 }
 
 export default MusicOption;

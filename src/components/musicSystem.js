@@ -25,7 +25,7 @@ function MusicSystem({idx,setIdx,music,sound,length}) {
       <button onClick={()=> backWard(idx,setIdx,sound,setIsPlaying,length)} className='button'><FastRewind/></button>  
       <button className='button' onClick={()=>handlePlayButton(isPlaying,setIsPlaying,sound)}><PlayOrPause isPlaying={isPlaying}/></button>
       <button onClick={()=> forWard(idx,setIdx,sound,setIsPlaying,length)} className='button'><FastForward/></button>
-        </div></div> );
+      </div></div> );
   }
 }
 
@@ -38,14 +38,14 @@ function startPlaying(idx,setIdx,sound,setIsPlaying,setIsHome){
  }
 
 function backWard(idx,setIdx,sound,setIsPlaying,length){
-  if(idx == 1) setIdx(length-1);
+  if(idx === 1) setIdx(length-1);
   else setIdx(--idx);
   soundStop(sound);
   setIsPlaying(false);
 }
 
 function forWard(idx,setIdx,sound,setIsPlaying,length){
- if(idx == length-1) setIdx(1); 
+ if(idx === length-1) setIdx(1); 
  else setIdx(++idx);
  soundStop(sound);
  setIsPlaying(false);
