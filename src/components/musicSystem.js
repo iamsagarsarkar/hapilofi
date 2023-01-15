@@ -23,7 +23,6 @@ function MusicSystem({idx,setIdx,music,sound,length,mood,array}) {
   });
 
   function keyHandler({ key }) {
-    console.log(key);
     if(!isHome && key === "ArrowRight") forWard(idx,setIdx,sound,setIsPlaying,length,array,mood);
     else if(!isHome && key === "ArrowLeft") backWard(idx,setIdx,sound,setIsPlaying,length,array,mood);
     else if(!isHome && key === " ") handlePlayButton(isPlaying,setIsPlaying,sound);
