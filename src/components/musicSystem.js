@@ -83,9 +83,8 @@ function backWard(idx,setIdx,sound,setIsPlaying,length,array,mood){
       if(cur === 0) cur = length-1;
       else cur--;
     }
-    if(array[cur%length].mood !== mood && cur%array.length === idx) console.log("Not have that mood");
+    if(cur%array.length === idx) console.log("Not have that mood");
     else{
-      console.log(cur%array.length);
       setIdx(cur%array.length);
       soundStop(sound);
       setIsPlaying(false);
@@ -102,7 +101,7 @@ function forWard(idx,setIdx,sound,setIsPlaying,length,array,mood){
   }else{
     let cur = idx+1;
     while(cur%array.length !== idx && array[cur%array.length].mood !== mood) cur++;
-    if(array[cur%length].mood !== mood && cur%array.length === idx) console.log("Not have that mood");
+    if(cur%array.length === idx) console.log("Not have that mood");
     else{
       setIdx(cur%array.length);
       soundStop(sound);
