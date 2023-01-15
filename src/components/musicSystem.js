@@ -80,11 +80,12 @@ function backWard(idx,setIdx,sound,setIsPlaying,length,array,mood){
     let cur = idx-1;
     if(cur === 0) cur = length-1;
     while(cur%length !== idx && array[cur%length].mood !== mood){
-      cur--;
       if(cur === 0) cur = length-1;
+      else cur--;
     }
     if(array[cur%length].mood !== mood && cur%array.length === idx) console.log("Not have that mood");
     else{
+      console.log(cur%array.length);
       setIdx(cur%array.length);
       soundStop(sound);
       setIsPlaying(false);
