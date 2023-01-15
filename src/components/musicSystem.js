@@ -3,13 +3,34 @@ import { ReactComponent as FastForward } from '../assets/fast_forward.svg';
 import { ReactComponent as PlaySvg } from '../assets/play_arrow.svg';
 import { ReactComponent as PauseSvg } from '../assets/pause.svg';
 import './musicSystem.css';
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 
 function MusicSystem({idx,setIdx,music,sound,length,mood,array}) {
   const [isPlaying,setIsPlaying] = useState([true]);
   const [isHome,setIsHome] = useState([true]);
 
+  const [volume, setVolume] = useState(1);
+  const finalVolume = volume ** 2;
+  sound.volume = finalVolume;
+
   if(!isHome && idx === 0) checkMood(mood,music,array,idx,setIdx,setIsPlaying,sound);
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", keyHandler);
+    return () => {
+      window.removeEventListener("keydown", keyHandler);
+    };
+  });
+
+  function keyHandler({ key }) {
+    console.log(key);
+    if(!isHome && key === "ArrowRight") forWard(idx,setIdx,sound,setIsPlaying,length,array,mood);
+    else if(!isHome && key === "ArrowLeft") backWard(idx,setIdx,sound,setIsPlaying,length,array,mood);
+    else if(!isHome && key === " ") handlePlayButton(isPlaying,setIsPlaying,sound);
+    else if(!isHome && key === "ArrowUp" && volume<1) setVolume(volume+0.02)
+    else if(!isHome && key === "ArrowDown" && volume>0) setVolume(volume-0.02);
+    else if(isHome && key === "Enter") startPlaying(idx,setIdx,sound,setIsPlaying,setIsHome);
+  }
 
   sound.onended = () => {
     forWard(idx,setIdx,sound,setIsPlaying,length);
@@ -24,9 +45,20 @@ function MusicSystem({idx,setIdx,music,sound,length,mood,array}) {
       <div className='music-system'>
       <p className='music-name'>{music.name}</p>
       <div className='button-work'>
-      <button onClick={()=> backWard(idx,setIdx,sound,setIsPlaying,length,array,mood)} className='button'><FastRewind/></button>  
-      <button className='button' onClick={()=>handlePlayButton(isPlaying,setIsPlaying,sound)}><PlayOrPause isPlaying={isPlaying}/></button>
-      <button onClick={()=> forWard(idx,setIdx,sound,setIsPlaying,length,array,mood)} className='button'><FastForward/></button>
+      <button onClick={()=> backWard(idx,setIdx,sound,setIsPlaying,length,array,mood)} className='button'><FastRewind fill='rgba(255,53,127,1)' /></button>  
+      <button className='button' onClick={()=>handlePlayButton(isPlaying,setIsPlaying,sound)}><PlayOrPause isPlaying={isPlaying} /></button>
+      <button onClick={()=> forWard(idx,setIdx,sound,setIsPlaying,length,array,mood)} className='button'><FastForward fill='rgba(59,173,227,1)'/></button>
+      <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.02}
+          class="range blue"
+          value={volume}
+          onChange={event => {
+            setVolume(event.target.valueAsNumber)
+          }}
+        />
       </div></div> );
   }
 }
@@ -85,8 +117,8 @@ function handlePlayButton(isPlaying,setIsPlaying,sound){
 }
 
 function PlayOrPause({isPlaying}){
-  if(isPlaying) return <PlaySvg/>
-  else return <PauseSvg/>
+  if(isPlaying) return <PlaySvg fill='rgba(152,68,183,1)' />
+  else return <PauseSvg fill='rgba(152,68,183,1)' />
 }
 
 function audio(isPlaying,sound){
@@ -112,5 +144,7 @@ function checkMood(mood,music,array,idx,setIdx,setIsPlaying,sound){
     }
    }
 }
+
+
 
 export default MusicSystem;

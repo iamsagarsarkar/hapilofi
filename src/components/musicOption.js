@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React from 'react';
 import Popup from 'reactjs-popup';
 import { ReactComponent as Menu } from '../assets/menu.svg';
 import './musicOption.css';
